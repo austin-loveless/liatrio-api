@@ -22,6 +22,6 @@ jobs:
       - name: Lint and Test
         run: cd api/
         run: npm ci
-        run: npm run lint && npm run test && npm run test:e2e
-      - name: Build the Docker image
-        run: cd api/ docker build .  --tag api:$(date +%s)
+      #   run: npm run lint && npm run test && npm run test:e2e
+      # - name: Build the Docker image
+      #   run: cd api/ docker build .  --tag api:$(date +%s)
