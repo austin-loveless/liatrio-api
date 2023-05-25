@@ -9,12 +9,18 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+          matrix:
+            node-version: [14.x, 16.x, 18.x, 20.x]
 
     steps:
       - uses: actions/checkout@v3
-      - name: Lint API
-        run: cd api/ && npm run lint
-      - name: Test API
-        run: cd api/ && npm run test && npm run test:e2e
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Lint and Test
+        run: npm ci
+        run: cd api/ && npm run lint && npm run test && npm run test:e2e
       - name: Build the Docker image
         run: cd api/ docker build .  --tag api:$(date +%s)
