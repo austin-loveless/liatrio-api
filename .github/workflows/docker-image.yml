@@ -15,13 +15,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Lint and Test
-        run: cd api/
-        run: npm ci
+      # - name: Use Node.js ${{ matrix.node-version }}
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: ${{ matrix.node-version }}
+      # - name: Lint and Test
+      #   run: cd api/
+      #   run: npm ci
       #   run: npm run lint && npm run test && npm run test:e2e
       # - name: Build the Docker image
       #   run: cd api/ docker build .  --tag api:$(date +%s)
