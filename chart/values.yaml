@@ -1,0 +1,28 @@
+replicaCount: 3
+
+image:
+  repository: austinloveless/liatrio-api
+  pullPolicy: IfNotPresent
+  tag: "latest"
+  port: 3000
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+service:
+  type: LoadBalancer
+  port: 80
+
+resources:
+  requests:
+    memory: "64Mi"
+    cpu: "250m"
+  limits:
+    memory: "128Mi"
+    cpu: "500m"
