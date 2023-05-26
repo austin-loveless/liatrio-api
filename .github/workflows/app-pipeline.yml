@@ -39,10 +39,10 @@ jobs:
           terraform_version: 1.4.0
 
       - name: Initialize Terraform
-        run: cd terraform/dev terraform init
+        run: cd terraform/dev && terraform init
 
       - name: Terraform Plan
-        run: cd terraform/dev terraform plan -out "plan-dev.txt"
+        run: cd terraform/dev && terraform plan -out "plan-dev.txt"
 
   deploy:
     needs: build
@@ -65,4 +65,4 @@ jobs:
           terraform_version: 1.4.0
 
       - name: Apply Terraform
-        run: cd terraform/${{ env.ENVIRONMENT }} terraform init && terraform apply -auto-approve
+        run: cd terraform/${{ env.ENVIRONMENT }} && terraform init && terraform apply -auto-approve
