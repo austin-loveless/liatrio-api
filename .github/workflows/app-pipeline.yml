@@ -71,4 +71,4 @@ jobs:
           terraform_version: 1.4.0
 
       - name: Apply Terraform
-        run: cd terraform/${{ env.ENVIRONMENT }} && terraform init && terraform apply -auto-approve
+        run: cd terraform/environments/dev && terraform init && terraform apply -auto-approve
