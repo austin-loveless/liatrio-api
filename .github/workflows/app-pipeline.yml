@@ -10,8 +10,8 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  # ECR_REPOSITORY: ecr-repo-liatrio
-  # IMAGE_TAG: latest
+  ECR_REPOSITORY: ecr-repo-liatrio
+  IMAGE_TAG: latest
 
 jobs:
   build:
@@ -34,18 +34,18 @@ jobs:
       - name: Lint and Test
         run: cd api/ && npm run lint && npm run test && npm run test:e2e
 
-      # - name: Login to Amazon ECR
-      #       id: login-ecr
-      #       uses: aws-actions/amazon-ecr-login@v1
+      - name: Login to Amazon ECR
+            id: login-ecr
+            uses: aws-actions/amazon-ecr-login@v1
 
-      # - name: Build, tag, and push image to Amazon ECR
-      #   env:
-      #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      #     ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
-      #     IMAGE_TAG: ${{ env.IMAGE_TAG }}
-      #   run: |
-      #     docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-      #     docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
+          IMAGE_TAG: ${{ env.IMAGE_TAG }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
   deploy:
     needs: build
