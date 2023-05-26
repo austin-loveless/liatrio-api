@@ -3,7 +3,7 @@ replicaCount: 3
 env: dev
 
 image:
-  repository: austinloveless/liatrio-api
+  repository: 807230335956.dkr.ecr.us-east-1.amazonaws.com/ecr-repo-liatrio:latest
   pullPolicy: IfNotPresent
   tag: "latest"
 

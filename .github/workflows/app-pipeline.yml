@@ -11,6 +11,7 @@ on:
 env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: ecr-repo-liatrio
+  EKS_CLUSTER: eks-cluster-liatrio
   IMAGE_TAG: latest
 
 jobs:
@@ -74,9 +75,28 @@ jobs:
         with:
           terraform_version: 1.4.0
 
-      - name: Initialize and Plan Terraform
+      # DEV
+      - name: Initialize and Plan Terraform for Dev
+        if: github.ref == 'refs/heads/main'
         run: cd terraform/environments/dev && terraform init && terraform apply -auto-approve
 
-      - name: Apply Terraform
+      - name: Deploy to EKS
+        uses: "deliverybot/helm@master"
+        if: github.ref == 'refs/heads/main'
+        run: |
+          aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name "${{ env.EKS_CLUSTER }}-dev"
+          cd charts/
+          helm install api .
+
+      # PROD
+      - name: Apply Terraform to Prod
         if: startsWith(github.event.ref, 'refs/tags/release-')
         run: cd terraform/environments/prod && terraform init && terraform apply -auto-approve
+
+      - name: Deploy to EKS
+        uses: "deliverybot/helm@master"
+        if: startsWith(github.event.ref, 'refs/tags/release-')
+        run: |
+          aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name "${{ env.EKS_CLUSTER }}-prod"
+          cd charts/
+          helm install api .
