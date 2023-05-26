@@ -3,7 +3,6 @@ terraform {
     bucket         = "terraform-state-liatrio"
     key            = "global/s3/terraform.tfstate"
     region         = "us-east-1"
-    profile        = "liatrio-terraform"
     dynamodb_table = "terraform-state-locking-liatrio"
     encrypt        = true
   }
