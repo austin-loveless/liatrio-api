@@ -5,6 +5,5 @@ module "app" {
 }
 
 provider "aws" {
-  profile = "liatrio-terraform"
   region  = "us-east-1"
 }
