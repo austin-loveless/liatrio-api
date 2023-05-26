@@ -75,9 +75,6 @@ jobs:
         with:
           terraform_version: 1.4.0
 
-      - name: Setup Helm
-        uses: "deliverybot/helm@v1"
-
       # DEV
       - name: Initialize and Plan Terraform for Dev
         if: github.ref == 'refs/heads/main'
@@ -86,6 +83,9 @@ jobs:
       - name: Deploy to EKS
         if: github.ref == 'refs/heads/main'
         run: |
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
           aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name "${{ env.EKS_CLUSTER }}-dev"
           cd charts/
           helm install api .
@@ -98,6 +98,9 @@ jobs:
       - name: Deploy to EKS
         if: startsWith(github.event.ref, 'refs/tags/release-')
         run: |
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
           aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name "${{ env.EKS_CLUSTER }}-prod"
           cd charts/
           helm install api .
