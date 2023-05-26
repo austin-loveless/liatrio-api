@@ -84,7 +84,6 @@ jobs:
         run: cd terraform/environments/dev && terraform init && terraform apply -auto-approve
 
       - name: Deploy to EKS
-        uses: "deliverybot/helm@master"
         if: github.ref == 'refs/heads/main'
         run: |
           aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name "${{ env.EKS_CLUSTER }}-dev"
