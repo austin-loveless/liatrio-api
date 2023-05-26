@@ -75,6 +75,9 @@ jobs:
         with:
           terraform_version: 1.4.0
 
+      - name: Setup Helm
+        uses: "deliverybot/helm@master"
+
       # DEV
       - name: Initialize and Plan Terraform for Dev
         if: github.ref == 'refs/heads/main'
@@ -94,7 +97,6 @@ jobs:
         run: cd terraform/environments/prod && terraform init && terraform apply -auto-approve
 
       - name: Deploy to EKS
-        uses: "deliverybot/helm@master"
         if: startsWith(github.event.ref, 'refs/tags/release-')
         run: |
           aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name "${{ env.EKS_CLUSTER }}-prod"
