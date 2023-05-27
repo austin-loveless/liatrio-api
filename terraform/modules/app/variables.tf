@@ -3,5 +3,5 @@ variable "env" {
 }
 
 variable "company" {
-  type    = string
+  type = string
 }

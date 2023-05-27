@@ -31,7 +31,7 @@ module "eks" {
   cluster_name    = "eks-cluster-${var.company}-${var.env}"
   cluster_version = "1.24"
 
-  cluster_endpoint_public_access  = true
+  cluster_endpoint_public_access = true
 
   cluster_addons = {
     coredns = {
@@ -45,16 +45,11 @@ module "eks" {
     }
   }
 
-  vpc_id                   = module.vpc.vpc_id
-  subnet_ids               = module.vpc.private_subnets
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnets
 
-  # Self Managed Node Group(s)
-  self_managed_node_group_defaults = {
-    instance_type                          = "t3.medium"
-    update_launch_template_default_version = true
-    iam_role_additional_policies = {
-      AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-    }
+  eks_managed_node_group_defaults = {
+    instance_types = ["t3.medium"]
   }
 
   tags = {
