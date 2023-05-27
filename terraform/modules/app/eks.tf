@@ -52,6 +52,18 @@ module "eks" {
     instance_types = ["t3.medium"]
   }
 
+eks_managed_node_groups = {
+  blue = {}
+  green = {
+    min_size     = 2
+    max_size     = 4
+    desired_size = 2
+
+    instance_types = ["t3.medium"]
+    capacity_type  = "ON_DEMAND"
+  }
+}
+
   tags = {
     Environment = var.env
     Terraform   = "true"
