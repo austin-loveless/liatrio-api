@@ -846,7 +846,7 @@ spec:
     spec:
       containers:
         - args:
-            - --cluster-name="eks-cluster-liatrio-{{ .Values.env }}"
+            - --cluster-name=eks-cluster-liatrio-develop
             - --ingress-class=alb
           image: public.ecr.aws/eks/aws-load-balancer-controller:v2.4.7
           livenessProbe:
