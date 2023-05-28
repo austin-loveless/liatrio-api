@@ -13,17 +13,17 @@ module "vpc" {
   enable_dns_hostnames = true
 
   tags = {
-    "kubernetes.io/cluster/${module.eks.cluster_name}" = "shared"
+    "kubernetes.io/cluster/eks-cluster-${var.company}-${var.env}" = "shared"
   }
 
   public_subnet_tags = {
-    "kubernetes.io/cluster/${module.eks.cluster_name}"  = "shared"
-    "kubernetes.io/role/elb"                    = "1"
+    "kubernetes.io/cluster/eks-cluster-${var.company}-${var.env}" = "shared"
+    "kubernetes.io/role/elb"                                      = "1"
   }
 
   private_subnet_tags = {
-    "kubernetes.io/cluster/${module.eks.cluster_name}" = "shared"
-    "kubernetes.io/role/internal-elb"          = "1"
+    "kubernetes.io/cluster/eks-cluster-${var.company}-${var.env}" = "shared"
+    "kubernetes.io/role/internal-elb"                             = "1"
   }
 }
 
