@@ -11,8 +11,7 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-serviceAccount:
-  awsAccountARN: 807230335956
+accountNumber: 807230335956
 
 service:
   type: NodePort

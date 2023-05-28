@@ -1,6 +1,6 @@
 replicaCount: 3
 
-env: dev
+env: develop
 
 image:
   repository: 807230335956.dkr.ecr.us-east-1.amazonaws.com/ecr-repo-liatrio
@@ -11,8 +11,7 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-serviceAccount:
-  awsAccountARN: 807230335956
+accountNumber: 807230335956
 
 service:
   type: NodePort
