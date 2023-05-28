@@ -76,9 +76,9 @@ jobs:
           terraform_version: 1.4.0
 
       # DEV
-      - name: Initialize and Apply Terraform for Dev
-        if: github.ref == 'refs/heads/main'
-        run: cd terraform/environments/dev && terraform init && terraform apply -auto-approve
+      # - name: Initialize and Apply Terraform for Dev
+      #   if: github.ref == 'refs/heads/main'
+      #   run: cd terraform/environments/dev && terraform init && terraform apply -auto-approve
 
       - name: Deploy to EKS
         if: github.ref == 'refs/heads/main'
