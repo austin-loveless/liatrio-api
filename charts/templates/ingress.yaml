@@ -3,11 +3,10 @@
 # metadata:
 #   name: "{{ include "charts.fullname" . }}-ingress-{{ .Values.env }}"
 #   annotations:
-#     kubernetes.io/ingress.class: alb
-#     alb.ingress.kubernetes.io/scheme: internet-facing
-#     alb.ingress.kubernetes.io/target-type: instance
-#     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": {{ .Values.service.port }} }]'
+# alb.ingress.kubernetes.io/scheme: internet-facing
+# alb.ingress.kubernetes.io/target-type: ip
 # spec:
+# ingressClassName: alb
 #   rules:
 #   - http:
 #       paths:
@@ -19,3 +18,23 @@
 #             port:
 #               number: {{ .Values.service.port }}
 
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: game-2048
+  name: ingress-2048
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: service-2048
+                port:
+                  number: 80
