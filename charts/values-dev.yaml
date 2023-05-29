@@ -15,8 +15,7 @@ accountNumber: 807230335956
 
 service:
   type: NodePort
-  port: 80
-  nodePort: 30000
+  port: 443
 
 resources:
   limits:

@@ -1,0 +1,12 @@
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+  name: k8s-default-apichart-manaul
+  labels:
+    ingress.k8s.aws/stack-name: api-charts-ingress-develop
+    ingress.k8s.aws/stack-namespace: default
+spec:
+  serviceRef:
+    name: "{{ include "charts.fullname" . }}-svc-{{ .Values.env }}"
+    port: {{ .Values.service.port }}
+  targetGroupARN: arn:aws:elasticloadbalancing:us-east-1:807230335956:targetgroup/k8s-default-apichart-fec3874bb3/1472c1a8775c4ff1

@@ -14,6 +14,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: api-charts-svc-develop
+            name: "{{ include "charts.fullname" . }}-svc-{{ .Values.env }}"
             port:
-              number: 80
+              number: {{ .Values.service.port }}
