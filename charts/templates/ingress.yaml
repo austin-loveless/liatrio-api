@@ -9,11 +9,6 @@ metadata:
     alb.ingress.kubernetes.io/backend-protocol: HTTP
     alb.ingress.kubernetes.io/subnets: subnet-02cbff290465ef180,subnet-0654963c6e3e02c40,subnet-007e5f7c85dc40452
 spec:
-  defaultBackend:
-    service:
-      name: {{ include "charts.fullname" . }}-svc-{{ .Values.env }}
-      port:
-        number: {{ .Values.service.port }}
   rules:
   - http:
       paths:
