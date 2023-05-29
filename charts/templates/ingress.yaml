@@ -4,7 +4,7 @@ metadata:
   name: "{{ include "charts.fullname" . }}-ingress-{{ .Values.env }}"
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
-    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/target-type: instance
 spec:
   ingressClassName: alb
   defaultBackend:
