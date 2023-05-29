@@ -8,7 +8,6 @@ metadata:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/backend-protocol: HTTP
 spec:
-  ingressClassName: alb
   defaultBackend:
     service:
       name: {{ include "charts.fullname" . }}-svc-{{ .Values.env }}
