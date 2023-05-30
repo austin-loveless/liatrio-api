@@ -13,7 +13,7 @@ fullnameOverride: ""
 
 accountNumber: 807230335956
 
-serviceAccountRoleName: EKSLoadBalancerControllerPolicy-prod
+serviceAccountRoleName: EKSLoadBalancerControllerRole-prod
 
 service:
   type: NodePort
