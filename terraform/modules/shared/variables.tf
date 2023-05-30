@@ -1,3 +1,0 @@
-variable "company" {
-  type = string
-}
