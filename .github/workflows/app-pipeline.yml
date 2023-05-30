@@ -160,11 +160,9 @@ jobs:
 
       # PROD
       - name: Deploy Terraform to Prod
-        if: startsWith(github.event.ref, 'refs/tags/release-')
         run: cd terraform/environments/prod && terraform init && terraform apply -auto-approve
 
       - name: Deploy to EKS Prod
-        if: startsWith(github.event.ref, 'refs/tags/release-')
         run: |
           curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
           chmod 700 get_helm.sh
