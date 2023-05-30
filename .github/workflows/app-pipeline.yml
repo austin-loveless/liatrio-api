@@ -33,8 +33,8 @@ jobs:
       - name: Install
         run: cd api/ && npm ci
 
-      # - name: Lint and Test
-      #   run: cd api/ && npm run lint && npm run test && npm run test:e2e
+      - name: Lint and Test
+        run: cd api/ && npm run lint && npm run test && npm run test:e2e
 
   plan-terraform:
     if: startsWith(github.ref, 'refs/tags/release-') != true
@@ -125,19 +125,19 @@ jobs:
           terraform_version: 1.4.0
 
       # DEV
-      # - name: Deploy Terraform to Develop
-      #   if: github.ref == 'refs/heads/main'
-      #   run: cd terraform/environments/dev && terraform init && terraform apply -auto-approve
+      - name: Deploy Terraform to Develop
+        if: github.ref == 'refs/heads/main'
+        run: cd terraform/environments/dev && terraform init && terraform apply -auto-approve
 
-      # - name: Deploy to EKS Develop
-      #   if: github.ref == 'refs/heads/main'
-      #   run: |
-      #     curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-      #     chmod 700 get_helm.sh
-      #     ./get_helm.sh
-      #     aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name "${{ env.EKS_CLUSTER }}-develop"
-      #     cd charts/
-      #     helm upgrade api . -f values-dev.yaml
+      - name: Deploy to EKS Develop
+        if: github.ref == 'refs/heads/main'
+        run: |
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
+          aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name "${{ env.EKS_CLUSTER }}-develop"
+          cd charts/
+          helm upgrade api . -f values-dev.yaml
 
   build-image-prod:
     runs-on: ubuntu-latest
