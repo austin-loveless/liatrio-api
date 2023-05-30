@@ -88,7 +88,7 @@ jobs:
         with:
           terraform_version: 1.4.0
 
-      - name: Initialize and Apply Terraform for Dev
+      - name: Terraform Plan
         run: cd terraform/environments/dev && terraform init && terraform plan
 
   deploy:
@@ -111,7 +111,7 @@ jobs:
           terraform_version: 1.4.0
 
       # DEV
-      - name: Initialize and Apply Terraform for Dev
+      - name: Deploy Terraform to Develop
         if: github.ref == 'refs/heads/main'
         run: cd terraform/environments/dev && terraform init && terraform apply -auto-approve
 
@@ -126,7 +126,7 @@ jobs:
           helm upgrade api . -f values-dev.yaml
 
       # PROD
-      - name: Initialize and Apply Terraform to Prod
+      - name: Deploy Terraform to Prod
         if: startsWith(github.event.ref, 'refs/tags/release-')
         run: cd terraform/environments/prod && terraform init && terraform apply -auto-approve
 
