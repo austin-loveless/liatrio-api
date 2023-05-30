@@ -5,7 +5,7 @@ env: prod
 image:
   repository: 807230335956.dkr.ecr.us-east-1.amazonaws.com/ecr-repo-liatrio
   pullPolicy: Always
-  tag: "release-1.2.0"
+  tag: "release-1.3.1"
 
 imagePullSecrets: []
 nameOverride: ""
