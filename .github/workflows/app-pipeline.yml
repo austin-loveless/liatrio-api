@@ -168,7 +168,7 @@ jobs:
           ./get_helm.sh
           aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name "${{ env.EKS_CLUSTER }}-prod"
           cd charts/
-          helm install api . -f values-prod.yaml
+          helm install api-prod . -f values-prod.yaml
 
   apply-shared-terraform:
     if: github.ref == 'refs/heads/shared-terraform'
