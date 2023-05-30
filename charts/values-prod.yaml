@@ -13,6 +13,8 @@ fullnameOverride: ""
 
 accountNumber: 807230335956
 
+serviceAccountRoleName: EKSLoadBalancerControllerPolicy-prod
+
 service:
   type: NodePort
   port: 443
