@@ -202,25 +202,3 @@ jobs:
           aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name "${{ env.EKS_CLUSTER }}-prod"
           cd charts/
           helm upgrade api . -f values-prod.yaml
-
-  apply-shared-terraform:
-    if: github.ref == 'refs/heads/shared-terraform'
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 1.4.0
-
-      - name: Terraform Apply
-        run: cd terraform/environments/shared && terraform init && terraform apply -auto-approve
