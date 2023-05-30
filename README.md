@@ -43,7 +43,7 @@ When updating the prod helm chart you need to first push the API changes and tag
 
 #### Release Tag:
 
-- build-image-prod: Tags existing image with latest release tag - `release-<version>`
+- tag-image-prod: Tags existing image with latest release tag - `release-<version>`
 - deploy-prod: Deploys Helm chart to EKS and Terraform resources.
 
 ### Deploying changes to Shared Environment

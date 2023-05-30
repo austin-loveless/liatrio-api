@@ -105,7 +105,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
   deploy-develop:
-    needs: plan-terraform
+    needs: build-image
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
