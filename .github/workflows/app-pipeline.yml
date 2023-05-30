@@ -139,7 +139,7 @@ jobs:
       #     helm upgrade api . -f values-dev.yaml
 
   deploy-prod:
-    if: startsWith(github.ref, 'refs/tags/release-*') != true
+    if: github.ref == 'refs/tags/release-*'
     runs-on: ubuntu-latest
 
     steps:
