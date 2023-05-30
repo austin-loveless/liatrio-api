@@ -874,7 +874,7 @@ spec:
     spec:
       containers:
         - args:
-            - --cluster-name=your-cluster-name
+            - --cluster-name=eks-cluster-liatrio-{{ .Values.env }}
             - --ingress-class=alb
           image: amazon/aws-alb-ingress-controller:v2.4.1
           livenessProbe:
