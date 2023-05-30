@@ -103,8 +103,9 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-  deploy:
+  deploy-develop:
     needs: plan-terraform
+    if: startsWith(github.event.ref, 'refs/tags/release-') != true
     runs-on: ubuntu-latest
 
     steps:
@@ -136,6 +137,26 @@ jobs:
       #     aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name "${{ env.EKS_CLUSTER }}-develop"
       #     cd charts/
       #     helm upgrade api . -f values-dev.yaml
+
+  deploy-prod:
+    needs: plan-terraform
+    if: startsWith(github.event.ref, 'refs/tags/release-')
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.4.0
 
       # PROD
       - name: Deploy Terraform to Prod
