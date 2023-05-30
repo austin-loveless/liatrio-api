@@ -3,7 +3,7 @@ replicaCount: 3
 env: prod
 
 image:
-  repository: 807230335956.dkr.ecr.us-east-1.amazonaws.com/ecr-repo-liatrio:latest
+  repository: 807230335956.dkr.ecr.us-east-1.amazonaws.com/ecr-repo-liatrio
   pullPolicy: Always
   tag: "release-1.2.0"
 
