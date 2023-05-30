@@ -90,10 +90,11 @@ jobs:
 
       - name: Set Release Tag output
         id: vars
+        if: startsWith(github.ref, 'refs/tags/release')
         run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
       - name: Build, tag, and push image to Amazon ECR
-        if: startsWith(github.ref, 'refs/tags/release-*')
+        if: startsWith(github.ref, 'refs/tags/release')
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
