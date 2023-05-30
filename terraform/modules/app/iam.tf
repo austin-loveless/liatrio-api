@@ -9,7 +9,7 @@ resource "aws_iam_role" "eks_load_balancer_controller_role" {
         ]
         Effect   = "Allow"
         Principal = {
-            "Federated": "arn:aws:iam::807230335956:${module.eks.oidc_provider}"
+            "Federated": "arn:aws:iam::807230335956:oidc-provider/${module.eks.oidc_provider}"
         }
         Condition = {
             StringEquals = {
