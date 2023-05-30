@@ -140,7 +140,7 @@ jobs:
 
   deploy-prod:
     needs: plan-terraform
-    if: startsWith(github.ref, 'refs/tags/release-*') !=true
+    if: startsWith(github.ref, 'refs/tags/release-')
     runs-on: ubuntu-latest
 
     steps:
