@@ -5,7 +5,7 @@ import { APIResponse } from './app.types';
 export class AppService {
   basicResponse(): APIResponse {
     const response = {
-      message: 'Automate all the things!',
+      message: 'Automate all the thingssss!',
       timestamp: 1529729125,
     };
     return response;
