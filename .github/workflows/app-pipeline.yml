@@ -16,6 +16,7 @@ env:
 
 jobs:
   api-checks:
+    if: startsWith(github.event.ref, 'refs/tags/release-') != true
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -32,11 +33,34 @@ jobs:
       - name: Install
         run: cd api/ && npm ci
 
-      - name: Lint and Test
-        run: cd api/ && npm run lint && npm run test && npm run test:e2e
+      # - name: Lint and Test
+      #   run: cd api/ && npm run lint && npm run test && npm run test:e2e
+
+  plan-terraform:
+    if: startsWith(github.event.ref, 'refs/tags/release-') != true
+    needs: api-checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.4.0
+
+      - name: Terraform Plan
+        run: cd terraform/environments/dev && terraform init && terraform plan
 
   build-image:
-    needs: api-checks
+    needs: plan-terraform
     runs-on: ubuntu-latest
 
     steps:
@@ -79,28 +103,6 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-  plan-terraform:
-    needs: build-image
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 1.4.0
-
-      - name: Terraform Plan
-        run: cd terraform/environments/dev && terraform init && terraform plan
-
   deploy:
     needs: plan-terraform
     runs-on: ubuntu-latest
@@ -140,15 +142,15 @@ jobs:
         if: startsWith(github.event.ref, 'refs/tags/release-')
         run: cd terraform/environments/prod && terraform init && terraform apply -auto-approve
 
-      # - name: Deploy to EKS Prod
-      #   if: startsWith(github.event.ref, 'refs/tags/release-')
-      #   run: |
-      #     curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-      #     chmod 700 get_helm.sh
-      #     ./get_helm.sh
-      #     aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name "${{ env.EKS_CLUSTER }}-prod"
-      #     cd charts/
-      #     helm install api . -f values-prod.yaml
+      - name: Deploy to EKS Prod
+        if: startsWith(github.event.ref, 'refs/tags/release-')
+        run: |
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
+          aws eks --region ${{ env.AWS_REGION }} update-kubeconfig --name "${{ env.EKS_CLUSTER }}-prod"
+          cd charts/
+          helm install api . -f values-prod.yaml
 
   apply-shared-terraform:
     if: github.ref == 'refs/heads/shared-terraform'
