@@ -16,7 +16,7 @@ env:
 
 jobs:
   api-checks:
-    if: startsWith(github.event.ref, 'refs/tags/release-') != true
+    if: startsWith(github.ref, 'refs/tags/release-*') != true
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -37,7 +37,7 @@ jobs:
       #   run: cd api/ && npm run lint && npm run test && npm run test:e2e
 
   plan-terraform:
-    if: startsWith(github.event.ref, 'refs/tags/release-') != true
+    if: startsWith(github.ref, 'refs/tags/release-*') != true
     needs: api-checks
     runs-on: ubuntu-latest
 
@@ -78,7 +78,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build, tag, and push image to Amazon ECR
-        if: startsWith(github.event.ref, 'refs/tags/release-') != true
+        if: startsWith(github.ref, 'refs/tags/release-*') != true
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
@@ -93,7 +93,7 @@ jobs:
         run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
 
       - name: Build, tag, and push image to Amazon ECR
-        if: startsWith(github.event.ref, 'refs/tags/release-')
+        if: startsWith(github.ref, 'refs/tags/release-*')
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.ECR_REPOSITORY }}
@@ -105,7 +105,7 @@ jobs:
 
   deploy-develop:
     needs: plan-terraform
-    if: startsWith(github.event.ref, 'refs/tags/release-') != true
+    if: startsWith(github.ref, 'refs/tags/release-*') != true
     runs-on: ubuntu-latest
 
     steps:
@@ -140,7 +140,7 @@ jobs:
 
   deploy-prod:
     needs: plan-terraform
-    if: startsWith(github.event.ref, 'refs/tags/release-')
+    if: startsWith(github.ref, 'refs/tags/release-*')
     runs-on: ubuntu-latest
 
     steps:
