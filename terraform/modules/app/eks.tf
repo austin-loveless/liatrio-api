@@ -26,16 +26,16 @@ module "eks" {
     instance_types = ["t3.medium"]
   }
 
-eks_managed_node_groups = {
-  nodes = {
-    min_size     = 2
-    max_size     = 4
-    desired_size = 2
+  eks_managed_node_groups = {
+    nodes = {
+      min_size     = 2
+      max_size     = 4
+      desired_size = 2
 
-    instance_types = ["t3.medium"]
-    capacity_type  = "ON_DEMAND"
+      instance_types = ["t3.medium"]
+      capacity_type  = "ON_DEMAND"
+    }
   }
-}
 
   tags = {
     Environment = var.env
