@@ -4,6 +4,7 @@ metadata:
   name: "{{ include "charts.fullname" . }}-deploy-{{ .Values.env }}"
   labels:
     {{- include "charts.labels" . | nindent 4 }}
+    date: "{{ now | unixEpoch }}"
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
