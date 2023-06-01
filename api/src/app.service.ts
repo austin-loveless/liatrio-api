@@ -6,7 +6,7 @@ export class AppService {
   basicResponse(): APIResponse {
     const response = {
       message: 'Automate all the things!',
-      timestamp: 1529729125,
+      timestamp: Date.now(),
     };
     return response;
   }
