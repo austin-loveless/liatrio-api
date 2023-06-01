@@ -18,7 +18,7 @@ describe('AppController (e2e)', () => {
   it('/ (GET)', () => {
     const response = {
       message: 'Automate all the things!',
-      timestamp: Date.now(),
+      // timestamp: Date.now(),
     };
     return request(app.getHttpServer()).get('/').expect(200).expect(response);
   });

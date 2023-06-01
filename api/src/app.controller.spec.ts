@@ -18,7 +18,7 @@ describe('AppController', () => {
     it('should return basic reponse', () => {
       const response = {
         message: 'Automate all the things!',
-        timestamp: Date.now(),
+        // timestamp: Date.now(),
       };
       expect(appController.basicResponse()).toStrictEqual(response);
     });
